@@ -1,2 +1,6 @@
 ﻿  test.cpp
-  test507.vcxproj -> G:\code\test507\Debug\test507.exe
+g:\code\cplusplus\test507\test507\test.cpp(53): error C2039: “<<”: 不是“xff”的成员
+  g:\code\cplusplus\test507\test507\test.cpp(7): note: 参见“xff”的声明
+g:\code\cplusplus\test507\test507\test.cpp(54): error C2039: “>>”: 不是“xff”的成员
+  g:\code\cplusplus\test507\test507\test.cpp(7): note: 参见“xff”的声明
+g:\code\cplusplus\test507\test507\test.cpp(76): error C2065: “cout”: 未声明的标识符

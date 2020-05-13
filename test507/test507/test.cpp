@@ -1,34 +1,8 @@
-//String类的使用
-//实现string类
-//深拷贝
+//系统实现
+#define _CRT_SECURE_NO_WARNINGS 1;
 #include<iostream>
 #include<string>
-namespace xff {
-	class String {
-	public:
-		//构造函数
-		String()
-		:_str(new char[1]){
-			*_str ='\0';
-		}
-		String(const char* str )
-			:_str(new char[strlen(str)+1]) {
-			
-		}
-		//析构函数
-		//~String();
-		//=重载
-		//String operator=(char* str2) 
-		//<<
-		//friend std::ostream& operator<<(std::ostream& _out, const xff::String s);
-		void Test_String() {
-			
-			std::cout << _str << std::endl;
-		}
-	private:
-		char* _str;
-	};
-}
+using namespace std;
 void Test_string() {
 	using namespace std;
 	string s1("hello");
@@ -45,19 +19,19 @@ void Test_string() {
 	s1[0] = 'H';//[]
 	//三种遍历方式
 	//for+[]
-	/*for (int i = 0; i < s1.size(); ++i) {
+	for (int i = 0; i < s1.size(); ++i) {
 		cout << s1[i] << " ";
-	}*/
+	}
 	//迭代器
-	/*string::iterator it = s1.begin();
+	string::iterator it = s1.begin();
 	while (it != s1.end()) {
 		cout << *it << "-";
 		++it;
-	}*/
+	}
 	//范围for
-	/*for (auto& a : s1) {
+	for (auto& a : s1) {
 		cout << (char)(a+1)<< " ";
-	}*/
+	}
 	s1.append(" world!");//字符串结尾追加一个字符串
 	string str(".cpp");
 	s1 += str;	//字符串结尾追加一个字符串
@@ -70,11 +44,14 @@ void Test_string() {
 	//cout << s1.rfind('l') << endl;
 	//cout << s1.size() << endl;	//有效字符个数
 	//cout << s1.capacity() << endl;//有效字符个数
-	
+	//getline(cin, str1);
+	//cout << str1 << endl;
+	//cout << str << endl;
+	//cout << operator==(str, s1) << endl;
+
 }
+
 int main() {
-	//xff::String s("hello");
-	//s.Test_String();
 	Test_string();
 	system("pause");
 	return 0;
