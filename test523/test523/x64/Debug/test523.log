@@ -1,0 +1,11 @@
+﻿  test.cpp
+g:\code\test523\test523\test.cpp(11): error C3867: “std::list<int,std::allocator<_Ty>>::begin”: 非标准语法；请使用 "&" 来创建指向成员的指针
+          with
+          [
+              _Ty=int
+          ]
+g:\code\test523\test523\test.cpp(11): error C3867: “std::list<int,std::allocator<_Ty>>::end”: 非标准语法；请使用 "&" 来创建指向成员的指针
+          with
+          [
+              _Ty=int
+          ]
