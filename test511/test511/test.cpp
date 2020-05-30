@@ -10,8 +10,14 @@ namespace xff {
 		iterator begin() {
 			return _str;
 		}
+		iterator rbegin() {	//最后一个字符
+			return _str+_size-1;
+		}
 		iterator end() {
 			return _str + _size;
+		}
+		iterator rend() {	//第一个字符的前一个
+			return --_str;
 		}
 		//构造函数
 		string(const char* str=""){
@@ -27,7 +33,7 @@ namespace xff {
 				,_capacity(0)
 		{
 			string tmp(s._str);
-			swap(tmp);
+			this->swap(tmp);
 		}
 		//析构函数
 		~string(){
@@ -37,13 +43,9 @@ namespace xff {
 				_size = _capacity = 0; 
 			}
 		}
-		
 		//=
-		string operator=(const string &s) {
-			if (this != &s) {
-				string strTmp(s);
-				swap(strTmp);
-			}
+		string operator=(string s) {
+			this->swap(s);
 			return *this;
 		}
 		//size
@@ -109,7 +111,6 @@ namespace xff {
 			this->append(str);
 			return *this;
 		}
-		
 		//append加字符串
 		void append(const char* str = "") {
 			size_t len = strlen(str);
@@ -128,7 +129,6 @@ namespace xff {
 		void clear() {
 			_size = 0;
 		}
-
 		//resize重置有效字符个数
 		//小于有效字符个数就截
 		//大于补字符
@@ -143,8 +143,8 @@ namespace xff {
 			}
 		}
 		//插入单个字符
-		void insert(size_t pos, const char ch) {
-			assert(pos <= _size);
+		string& insert(size_t pos, const char ch) {
+			assert(pos < _size);
 			size_t size = _size;
 			if (_size == _capacity) {
 				size_t newcapacity = _capacity == 0 ? 2 : 2 * _capacity;
@@ -157,46 +157,76 @@ namespace xff {
 				}
 				_str[pos] = ch;
 				++_size;	
+				return *this;
 		}
 		//插入字符串
-		void insert(size_t pos, const char* str) {
+		string& insert(size_t pos, const char* str) {
 			assert(pos <= _size);
 			size_t len = strlen(str);
 			if (_size+len > _capacity) {
 				reserve(_size + len);
 			}
-			size_t size = _size;
-			while (pos <= size)
+			int size = _size;
+			while ((int)pos <= size)//无符号-1是最大值，容易死循环
 			{
 				_str[size+len] = _str[size];
 				--size;
 			}
 			strncpy(_str + pos, str, len);//不要复制这个字符串尾部的空格，不然会覆盖移动的字符
 			_size += len;
+			return *this;
 		}
 		//删除
-		void erase(size_t pos=0,size_t num=0) {
-			if (num == 0) {
-				 _size = pos;
+		//大于等于pos到_size全删
+		//小于保留余下的，并且移动
+		string& erase(size_t pos,size_t len = npos) {
+			assert(pos < _size);
+			if (len>=_size-pos) {
+				_str[pos] = '\0';
+				_size = pos;
 			}
-			else {
-				size_t m = num;
-				while (m)
-				{
-					_str[pos + 1] = _str[pos + num + 1];
-					--m;
+			else
+			{
+				size_t i = pos+len;
+				while (i <= _size) {
+					_str[pos++] = _str[i++];	
 				}
-				_size -= num;
+				_size -= len;
 			}
+			return *this;
+		}
+		//find字符
+		size_t find(const char ch, size_t pos = 0) {
+			for (size_t i = pos; i < _size; ++i) {
+				if (_str[i] == ch) {
+					return i;
+				}
+			}
+			return npos;
+		}
+		//find字符串
+		size_t find(const char* str, size_t pos = 0) {
+			size_t len = strlen(str);
+			size_t dst = pos;
+			while (dst<_size) {
+				size_t src = 0;
+				pos = dst;
+				while (src<len&&_str[dst] == str[src]) {
+					++src;
+					++dst;
+				}
+				if (src == len) {
+					return pos;
+				}
+				++dst;
+			}
+			return npos;
 		}
 		bool operator==(const string& s) {
-			if (*_str != *s._str)
-				return false;
-			if (_size != s._size)
-				return false;
-			if (_capacity != s._capacity)
-				return false;
-			return true;
+			int ret = strcmp(_str, s._str);
+			if (ret == 0)
+				return true;
+			return false;
 		}
 		bool operator!=(const string& s) {
 			if (*this == s) {
@@ -205,12 +235,14 @@ namespace xff {
 			return true;
 		}
 		bool operator>(const string& s) {
-			if (_size > s._size)
+			int ret = strcmp(_str, s._str);
+			if (ret > 0)
 				return true;
 			return false;
 		}
 		bool operator<(const string& s) {
-			if (_size < s._size)
+			int ret = strcmp(_str, s._str);
+			if (ret < 0)
 				return true;
 			return false;
 		}
@@ -226,14 +258,26 @@ namespace xff {
 			}
 			return true;
 		}
-		
+		 const string substr(size_t pos, size_t n=npos) {
+			assert(pos < _size);
+			if (_size-pos<n) {
+				n = _size - pos;
+			}
+			
+			char* newstr = new char[n + 1];
+			strncpy(newstr,_str + pos, n);
+			newstr[n] = '\0';
+			string s(newstr);
+			delete[] newstr;
+			return s;
+		}
 	private:
 		char* _str;
 		size_t _size;
 		size_t _capacity;
-		size_t pos;
+		const static size_t npos;
 	};
-	size_t pos = -1;
+	const size_t string::npos = -1;
 	//重载<<
 	ostream&  operator <<(ostream& _out, const string& s) {
 		for (size_t i = 0; i < s.size(); ++i) {
@@ -241,48 +285,34 @@ namespace xff {
 		}
 		return _out;
 	}
-	
-
-	void test_String() {
+	//重载>>
+	istream&  operator >>(istream& _in, string& s) {
+		while (1) {
+			char ch;
+			ch = _in.get();//输入的全接收，包括空格换行
+			if (ch == '\n') {
+				break;
+			}
+			else
+			{
+				s += ch;
+			}
+		}	
+		return _in;
+	}
+	void test_String1() {
 		string s1;
-		cout << s1 << endl;
-		//cout << s1.size() << "  " <<s1.capacity()<< endl;
-		string s2("hello");
-		//s2.reserve(10);
-		//cout << s2 <<" ";
-		//cout << s2.size() << "  " << s2.capacity() << endl;
-		string s3(s2);
-		//cout << s3 << endl;
-		//3.clear();
-		//s3.push_back('w');
-		//s3.push_back('o');
-		//s3.push_back('r');
-		//s3.push_back('l');
-		//s3.push_back('d');
-		//s3.push_back('!');
-		//s3.append(" world!");
-		//s3.reserve(10);
-		//s3.resize(5);
-		//s3 += "world";
-		//s3 += '!';
-		//s3.insert(0,'c');
-		//s3.insert(1, 'a');
-		//s3.insert(2, 'o');
-		//s3.insert(3, 'f');
-		//s3.insert(4, 'e');
-		//s3.insert(5, 'n');
-		//s3.insert(9, 'g');
-		//s3.insert(7,' ');
-		//s3.insert(5,"world!");
-		s1.erase(1,2);
-		cout << s3 << " ";
-		cout << s3.size() <<"  "<<s3.capacity() <<endl;
-		//cout << (s3 < s2) << endl;
-		//s1 = s2;
 		//cout << s1 << endl;
-		//cout << s1.size() << "  " << s1.capacity() << endl;
-		//cout << s1.empty() << endl;
-
+		string s2("hello");
+		//cout << s2 << endl;
+		//cout << s2.size() << "  " << s2.capacity() << endl;
+		string s3;
+		s3 = s2;
+		cout << s3 << endl;
+		//cin >> s1;
+		//cout << s1 << "  " <<s1.empty()<<endl;
+		s2 += "world";
+		cout << s2 << endl;
 		//迭代器访问	
 		/*string::iterator it = s3.begin();
 		while (it != s3.end()) {
@@ -293,23 +323,69 @@ namespace xff {
 		for (auto e : s3) {
 			cout << e;
 		}*/
+		//s2.reserve(15);
+		//s2.reserve(3);
+		//cout << s2 << endl;
+		//cout << s2.size() << "  " << s2.capacity() << endl;
+		//s3.resize(2);
+		//s3.resize(10);
+		//cout << s3 << endl;
+		//cout << s3.size() << "  " << s3.capacity() << endl;
+		//s3.push_back(' ');
+		//cout << s3 << " ";
+		//cout << s3.size() << "  " << s3.capacity() << endl;
+		//s3.append("world!");
+		//cout << s3 << " ";
+		//cout << s3.size() << "  " << s3.capacity() << endl;
+		//s3.insert(0,"a");
+		//s3.insert(10, "abc");
+		//s3.insert(5,"a");
+		//s3.insert(1, 'a');
+		//s3.erase(2, 8);
+		//s3.erase(0);
+		//s3.erase(2, 2);
+		//cout << s3 << " ";
+		//cout << s3.size() << "  " << s3.capacity() << endl;
+		//size_t num1 =s3.find('l');
+		//size_t num2 = s2.find("q",1);
+		//cout << num1 << " " << num2 << endl;
+		//cout << (s3>=s2)<< endl;
+		cout << s3.substr(2, 2);
 	}
 }
-
 
 
 #include<string>
 int main() {
 	string s1("hello");
-	s1 += " world!";
-	//s1.push_back('!');
+	//cout<<s1.substr(2);
+	//s1.insert(5,"ac");
+	//s1 += " world!";
+	//s1.push_back(' ');
 	//s1.append("world!");
-	//s1.reserve(16);
+	//s1.reserve(18);
 	//s1.resize(14,'a');
 	//s1.clear();
-	//s1.erase(2,4);
-	//cout << s1<<" "<<s1.size()<<" "<<s1.capacity() << endl;
-	xff::test_String();
+	//s1.erase();
+	//cout << s1.substr(2);
+	//cout << s1 << endl;
+	//int num = s1.find('e');
+	//cout << s1<<" "<<s1.size()<<" "<<s1.capacity() <<endl;
+	//cout << num;
+	/*string::iterator it = s1.begin();
+	while (it != s1.end()) {
+		cout << *it;
+		++it;
+		}
+	cout << endl;
+	string::reverse_iterator rit = s1.rbegin();
+	while (rit != s1.rend()) {
+		cout << *rit;
+		++rit;
+	}*/
+	xff::test_String1();
 	system("pause");
 	return 0;
 }
+
+
