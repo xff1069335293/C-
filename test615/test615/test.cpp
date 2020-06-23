@@ -11,11 +11,11 @@ public:
 	{
 		cout << "person()" << endl;
 	 }
-	 virtual ~person()
+	   ~person()
 	{
 		cout << "~person()" << endl;
 	}
-	 virtual void buyticket()//final虚函数不能被子类重写
+	  virtual void buyticket()//final虚函数不能被子类重写
 	{
 		cout << "全价" << endl;
 		cout << _name << endl;
@@ -47,11 +47,12 @@ public:
 	{
 		cout << "~stu()" << endl;
 	}
-	virtual void buyticket()//override检查是否重写基类的虚函数
+	 void buyticket()//override检查是否重写基类的虚函数
 	{
 		cout << "半价" << endl;
 		cout << _name << endl;
 		cout << _num << endl;
+		cout << person::_name << endl;
 	}
 	/*virtual void buyticket(int)//虚函数重写，返回值，函数名，参数都相同时，成为子类重写了基类的虚函数
 	{
@@ -74,6 +75,7 @@ public:
 		return new B;
 	}*/
 	int _num;
+	string _name;
 };
 void test1()
 {
@@ -83,14 +85,17 @@ void test1()
 	stu s;
 	s._name = "cf";
 	s._num = 1;
+	s.person::_name = "name";
 	//p.buyticket();
-	//s.buyticket();
+	s.buyticket();
 	//父类调用子类对象出现切片
 	//person* pp = &s;
+	//person& ps = s;
+	//ps.buyticket();
 	//pp->buyticket();//调用指针对象（person）类型的，数据是指向(stu)类型的。
 	//stu*pps = &p;//子类调用不合法
-	//stu* ps = (stu*)&p;//强转
-	//ps->buyticket();//强转成stu类型,调用的函数是stu 对象指向的，数据是指向(person)类型的,有越界访问。
+	//stu* ps = (stu*)&p; //强转
+	//ps->buyticket();    //强转成stu类型,调用的函数是stu对象指向的，数据是指向(person)类型的,有越界访问。
 }
 void func(person p)
 {
@@ -121,8 +126,8 @@ void test2()
 
 void test3()
 {
-	person p;
-	stu s;
+	//person p;
+	//stu s;
 	person *pp = new stu;//不是多态会内存泄漏
 	//person *pp = new person;
 	delete pp;
@@ -133,11 +138,11 @@ class A
 public :
 	virtual void  fun1()
 	{
-
+		cout << "A::fun1()" << endl;
 	}
 	virtual void  fun2()
 	{
-
+		cout << "A::fun2()" << endl;
 	}
 	void  fun3()
 	{
@@ -152,7 +157,7 @@ class B :public A
 public:
 	virtual void  fun1() 
 	{
-
+		cout << "B::fun1()" << endl;
 	}
 	/*virtual void  fun()//不重写纯虚函数子类就不能实例化出对象
 	{
@@ -164,19 +169,19 @@ public:
 	}
 	virtual void  fun4()
 	{
-
+		cout << "B::fun4()" << endl;
 	}
 	int _age;
 };
 
 typedef void(*VFPTR)();
-void PrintVTable(VFPTR vTable[])
+void PrintVTable(VFPTR* vTable)
 {
 	// 依次取虚表中的虚函数指针打印并调用。调用就可以看出存的是哪个函数
 	cout << " 虚表地址>" << vTable << endl;
 	for (int i = 0; vTable[i] != nullptr; ++i)
 	{
-		printf(" 第%d个虚函数地址 :0X%x,->", i, vTable[i]);
+		printf(" 第%d个虚函数地址 :0X%p,->", i, vTable[i]);
 		VFPTR f = vTable[i];
 		f();
 	}
@@ -186,23 +191,24 @@ void test4()
 {
 	A a;//抽象类不能实例化出对象
 	B b;
-	//VFPTR* va = (VFPTR*)(*(int*)&a);
-	//PrintVTable(va);
-	//VFPTR* vb = (VFPTR*)(*(int*)&b);
-	//PrintVTable(vb);
+	//printf("%p\n", *((int*)&a));
+	//printf("%p\n", *((int*)&b));
+	VFPTR* va = (VFPTR*)(*(int*)&a);
+	PrintVTable(va);
+	VFPTR* vb = (VFPTR*)(*(int*)&b);
+	PrintVTable(vb);
 	//a.fun3();
-	b.fun3();
+	//b.fun3();
  	//cout << sizeof(a) << endl;//虚函数表指针32位-4字节大小
 	//cout << sizeof(b) << endl;
 
 }
 int main()
 {
-	
 	//test1();//隐藏重定义名字相同
 	//test2();//多态重重写
-	test3();
-	//test4();
+	//test3();
+	test4();
  	system("pause");
 	return 0;
 }

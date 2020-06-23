@@ -1,0 +1,4 @@
+﻿  test.cpp
+g:\code\test623\test623\test.cpp(99): warning C4172: 返回局部变量或临时变量的地址: b
+g:\code\test623\test623\test.cpp(56): warning C4172: 返回局部变量或临时变量的地址: a
+  test623.vcxproj -> G:\code\test623\Debug\test623.exe
