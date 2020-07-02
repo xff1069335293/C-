@@ -1,0 +1,27 @@
+﻿  test.c
+g:\code\test701\test701\test.c(31): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(31): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(32): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(32): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(33): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(33): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(34): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(34): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(35): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(35): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(36): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(36): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(37): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(37): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(38): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(38): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(39): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(39): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(40): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(40): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(41): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(41): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(61): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“size_t”
+  g:\code\test701\test701\test.c(61): note: 请考虑在格式字符串中使用“%zd”
+g:\code\test701\test701\test.c(80): warning C4013: “system”未定义；假设外部返回 int
+  test701.vcxproj -> G:\code\test701\x64\Debug\test701.exe
