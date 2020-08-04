@@ -1,0 +1,21 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 中间目录(Debug\)包含从另一个项目(deque.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  test.cpp
+g:\code\deque\deque\test.cpp(118): warning C4018: “<”: 有符号/无符号不匹配
+g:\code\deque\deque\test.cpp(36): warning C4018: “<”: 有符号/无符号不匹配
+  g:\code\deque\deque\test.cpp(32): note: 编译 类 模板 成员函数 "void xff::priority_queue<int,std::vector<int,std::allocator<_Ty>>,xff::Less<int>>::Adjustdown(void)" 时
+          with
+          [
+              _Ty=int
+          ]
+  g:\code\deque\deque\test.cpp(63): note: 参见对正在编译的函数 模板 实例化“void xff::priority_queue<int,std::vector<int,std::allocator<_Ty>>,xff::Less<int>>::Adjustdown(void)”的引用
+          with
+          [
+              _Ty=int
+          ]
+  g:\code\deque\deque\test.cpp(91): note: 参见对正在编译的 类 模板 实例化 "xff::priority_queue<int,std::vector<int,std::allocator<_Ty>>,xff::Less<int>>" 的引用
+          with
+          [
+              _Ty=int
+          ]
+g:\code\deque\deque\test.cpp(38): warning C4018: “<”: 有符号/无符号不匹配
+  deque.vcxproj -> G:\code\deque\Debug\priority_queue.exe
