@@ -1,2 +1,3 @@
 ﻿  test.cpp
+g:\code\queuecpp\queuecpp\test.cpp(78): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
   queueCPP.vcxproj -> G:\code\queueCPP\Debug\queueCPP.exe
