@@ -1,0 +1,4 @@
+﻿  test.cpp
+g:\code\test805\test805\test.cpp(15): warning C4101: “a2”: 未引用的局部变量
+g:\code\test805\test805\test.cpp(14): warning C4101: “a1”: 未引用的局部变量
+  test805.vcxproj -> G:\code\test805\Debug\test805.exe
