@@ -48,6 +48,8 @@ void Fun1()
 	mutex mtx;
 	
 	LockGuard<mutex> ld(mtx);
+
+	//cout << Div() << endl;
 	try
 	{
 		cout << Div() << endl;
@@ -56,11 +58,12 @@ void Fun1()
 	{							//找到就继续按照当前捕获列表向下执行
 		cout << msg << endl;
 	}
-	catch (const std::exception&e)
+	/*catch (...)
 	{
-		cout << e.what() << endl;
-	}
-	cout << "Fun1()" << endl;
+		cout << "未知异常" << endl;//避免未获取程序崩溃
+		throw;
+	}*/
+	//cout << "Fun1()" << endl;
 }
 void test1() 
 {
@@ -82,8 +85,9 @@ void test1()
 void Fun2()//异常安全问题,（资源泄漏）
 {
 	cout << "new int[100]" << endl;
+	cout << Div() << endl;
 
-	try
+	/*try
 	{
 		cout << Div() << endl;
 	}
@@ -91,7 +95,7 @@ void Fun2()//异常安全问题,（资源泄漏）
 	{
 		cout << "delete[] " << endl;
 		throw;
-	}
+	}*/
 }
 void test2()
 {
@@ -124,22 +128,73 @@ protected:
 };
 
 class SqlException :public Exception
-{
-
+{ 
+public:
+	SqlException(const char* errmsg, const int errid)
+		:Exception(errmsg, errid)
+	{}
+	string what()
+	{
+		return "数据库错误: " +_errmsg;
+	}
 };
 
 class Network :public Exception
 {
-
+public:
+	Network(const char* errmsg, const int errid)
+		:Exception(errmsg, errid)
+	{}
+	string what()
+	{
+		return "网络错误:" + _errmsg;
+	}
 };
-void test3()//
+void server()
 {
+	
+	int n = 0;
+	cin >> n;
+	if (n == 1)
+		throw SqlException("数据库启动失败\n", 1);
+	if (n == 2)
+		throw Network("网络连接失败\n", 2);
+	else
+		throw "  ";
+}
+void test3()
+{
+	try {
+		server();
+		// 抛出对象都是派生类对象
+	}
+	catch (Exception& e) // 这里捕获父类对象就可以
+	{
+		cout << e.what() << endl;
+	}
+	catch (...)
+	{
+		cout << "Unkown Exception" << endl;
+	}
+}
 
+void test4()//异常规范
+{	
+	//抛出多个异常
+	//void fun() throw(A，B，C，D);
+
+	//抛出单个异常
+	//void fun() throw(A); 
+	
+	//不抛异常
+	//void fun() throw(); //void fun() noexcept;
 }
 int main()
 {
 	//test1();
 	//test2();
+	//test3();
+	//test4();
 	system("pause");
 	return 0;
 }
